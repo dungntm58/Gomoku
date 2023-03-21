@@ -47,10 +47,16 @@ test-library:
 	  xcodebuild test -scheme $(LIBRARY_SCHEME) -destination platform="$$platform"; \
 	done
 
+.PHONY: test-library-iphone
+test-library-iphone:
+	for platform in "$(TEST_PLATFORM_IOS)"; do \
+      xcodebuild test -scheme $(LIBRARY_SCHEME) -destination platform="$$platform"; \
+	done
+
 .PHONY: test-example
 test-example:
-	cd Example && xcodebuild test -scheme $(EXAMPLE_SCHEME) -destination platform="$(TEST_PLATFORM_IOS)"
+	cd $(EXAMPLE_SCHEME) && xcodebuild test -scheme $(EXAMPLE_SCHEME) -destination platform="$(TEST_PLATFORM_IOS)"
 
 .PHONY: build-examples
 build-examples:
-	cd Example && xcodebuild build -scheme $(EXAMPLE_SCHEME) -destination platform="$(TEST_PLATFORM_IOS)"
+	cd $(EXAMPLE_SCHEME) && xcodebuild build -scheme $(EXAMPLE_SCHEME) -destination platform="$(TEST_PLATFORM_IOS)"

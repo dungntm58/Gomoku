@@ -9,24 +9,22 @@ import Foundation
 import Distributed
 
 public class Game {
-    public let mainPlayer: any Player
-    public let opponent: any Player
+    public var players: [any Player]
     public var board: Board
 
-    public init(mainPlayer: any Player, opponent: any Player, board: Board) {
-        self.mainPlayer = mainPlayer
-        self.opponent = opponent
+    public init(board: Board, players: [any Player]) {
         self.board = board
+        self.players = players
+    }
+
+    public convenience init(board: Board, player: any Player...) {
+        self.init(board: board, players: player)
     }
 
     public var state: State {
         get async {
-            if let winner = await board.checkWin() {
-                if winner == mainPlayer.id.id {
-                    return .win(player: mainPlayer)
-                } else {
-                    return .win(player: opponent)
-                }
+            if let winner = await board.checkWin(), let winner = players.first(where: { $0.id.id == winner }) {
+                return .win(player: winner)
             }
             if board.isRunningOutOfMove {
                 return .draw

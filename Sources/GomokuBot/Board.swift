@@ -78,15 +78,26 @@ public struct Board {
                 }
             }
             // Check primary diagonals
-            for i in stride(from: 0, to: row - 5, by: 1) {
+            for i in stride(from: 0, to: row, by: 1) {
                 group.addTask(priority: taskPriority) {
-                    return winnerTester.testPrimaryDiagonal(start: i, grid: grid)
+                    return winnerTester.testPrimaryDiagonal(row: i, column: 0, grid: grid)
                 }
             }
-            // Check secondary diagonals
-            for i in stride(from: 0, to: column - 5, by: 1) {
+            for i in stride(from: 0, to: column, by: 1) {
                 group.addTask(priority: taskPriority) {
-                    return winnerTester.testSecondaryDiagonal(start: i, grid: grid)
+                    return winnerTester.testPrimaryDiagonal(row: 0, column: i, grid: grid)
+                }
+            }
+            
+            // Check secondary diagonals
+            for i in stride(from: 0, to: row, by: 1) {
+                group.addTask(priority: taskPriority) {
+                    return winnerTester.testSecondaryDiagonal(row: i, column: 0, grid: grid)
+                }
+            }
+            for i in stride(from: 0, to: column, by: 1) {
+                group.addTask(priority: taskPriority) {
+                    return winnerTester.testSecondaryDiagonal(row: 0, column: i, grid: grid)
                 }
             }
             for await result in group {
