@@ -61,10 +61,66 @@ public struct ClassicWinnerTester: WinnerTestable {
     }
 
     public func testPrimaryDiagonal(row: Int, column: Int, grid: BoardGrid) -> UInt? {
+        if grid.isEmpty {
+            return nil
+        }
+        let scanningEdge = min(grid.count, grid[0].count)
+        var row = row, column = column
+        while row < scanningEdge && column < scanningEdge && grid[row][column] <= 0 {
+            row += 1
+            column += 1
+        }
+        if row >= scanningEdge || column >= scanningEdge {
+            return nil
+        }
+        var currentValue = grid[row][column]
+        while row < scanningEdge && column < scanningEdge {
+            var firstDiffRow = row, firstDiffColumn = column
+            while firstDiffRow < scanningEdge && firstDiffColumn < scanningEdge && grid[firstDiffRow][firstDiffColumn] == currentValue {
+                firstDiffRow += 1
+                firstDiffColumn += 1
+            }
+            if firstDiffRow - row >= 5 {
+                return UInt(currentValue)
+            }
+            if firstDiffRow < scanningEdge && firstDiffColumn < scanningEdge {
+                currentValue = grid[firstDiffRow][firstDiffColumn]
+            }
+            row = firstDiffRow
+            column = firstDiffColumn
+        }
         return nil
     }
 
     public func testSecondaryDiagonal(row: Int, column: Int, grid: BoardGrid) -> UInt? {
+        if grid.isEmpty {
+            return nil
+        }
+        let scanningEdge = min(grid.count, grid[0].count)
+        var row = row, column = column
+        while row >= 0 && column < scanningEdge && grid[row][column] <= 0 {
+            row -= 1
+            column += 1
+        }
+        if row < 0 || column >= scanningEdge {
+            return nil
+        }
+        var currentValue = grid[row][column]
+        while row >= 0 && column < scanningEdge {
+            var firstDiffRow = row, firstDiffColumn = column
+            while firstDiffRow >= 0 && firstDiffColumn < scanningEdge && grid[firstDiffRow][firstDiffColumn] == currentValue {
+                firstDiffRow -= 1
+                firstDiffColumn += 1
+            }
+            if row - firstDiffRow >= 5 {
+                return UInt(currentValue)
+            }
+            if firstDiffRow >= 0 && firstDiffColumn < scanningEdge {
+                currentValue = grid[firstDiffRow][firstDiffColumn]
+            }
+            row = firstDiffRow
+            column = firstDiffColumn
+        }
         return nil
     }
 }
