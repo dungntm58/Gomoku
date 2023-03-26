@@ -10,8 +10,8 @@ import Foundation
 public typealias BoardGrid = ContiguousArray<ContiguousArray<Int>>
 
 public struct Board {
-    private let row: Int
-    private let column: Int
+    public let row: Int
+    public let column: Int
     private let winnerTester: WinnerTestable
 
     private var grid: BoardGrid

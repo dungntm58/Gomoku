@@ -15,6 +15,8 @@ public protocol WinnerTestable {
 }
 
 public struct ClassicWinnerTester: WinnerTestable {
+    public init() {}
+
     public func testRow(at row: Int, grid: BoardGrid) -> UInt? {
         let gridColumn = grid[row]
         guard var index = gridColumn.firstIndex(where: { $0 > 0 }) else {

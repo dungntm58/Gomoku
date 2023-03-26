@@ -6,15 +6,28 @@
 //
 
 import Foundation
-import Distributed
+import Combine
 
-public class Game {
-    public var players: [any Player]
-    public var board: Board
+public class Game: ObservableObject {
+    public var players: [any Player] {
+        didSet {
+            setupPlayers()
+        }
+    }
+
+    @Published
+    public private(set) var board: Board
+
+    var currentPlayerIndex: Int = -1 {
+        didSet {
+            
+        }
+    }
 
     public init(board: Board, players: [any Player]) {
         self.board = board
         self.players = players
+        setupPlayers()
     }
 
     public convenience init(board: Board, player: any Player...) {
@@ -30,6 +43,54 @@ public class Game {
                 return .draw
             }
             return .playing
+        }
+    }
+
+    public func start(withPlayerIndex index: Int) {
+        assert(players.count > 1, "There must be at least 2 players to start a game")
+        assert(index >= 0 && index < players.count, "Index must be within a range of 0..<players.count")
+        currentPlayerIndex = index
+    }
+
+    public func start() {
+        currentPlayerIndex = 0
+    }
+}
+
+extension Game: PlayerDelegate {
+    public func playerMakeMove(move: Move) async {
+        do {
+            try self.board.mark(move)
+            if await state.isOver {
+                return
+            }
+            self.passToNextPlayer()
+            try await self.currentPlayer.opponentMoved(move, board: self.board)
+        } catch let error as MoveError {
+            await playerMakeFailedMove(id: move.playerID, error: error)
+        } catch {}
+    }
+
+    public func playerMakeFailedMove(id: PlayerIdentifier, error: MoveError) async {
+        
+    }
+}
+
+private extension Game {
+    func passToNextPlayer() {
+        if currentPlayerIndex < players.count - 1 {
+            return currentPlayerIndex += 1
+        }
+        currentPlayerIndex = 0
+    }
+
+    var currentPlayer: any Player {
+        players[currentPlayerIndex]
+    }
+
+    func setupPlayers() {
+        for i in stride(from: 0, to: players.count, by: 1) {
+            players[i].delegate = self
         }
     }
 }
