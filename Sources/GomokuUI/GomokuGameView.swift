@@ -10,15 +10,15 @@ import GomokuBot
 
 public struct GomokuGameView: View {
 
-    @EnvironmentObject var game: Game
+    @EnvironmentObject var gomoku: Gomoku
 
     @ViewBuilder
     public var body: some View {
         ScrollView {
-            ForEach(0..<game.board.row, id: \.self) { row in
+            ForEach(0..<gomoku.row, id: \.self) { row in
                 if #available(iOS 14.0, macOS 11.0, *) {
-                    LazyHGrid(rows: Array(repeating: GridItem(.fixed(50 * CGFloat(game.board.row))), count: game.board.row)) {
-                        ForEach(0..<game.board.column, id: \.self) { column in
+                    LazyHGrid(rows: Array(repeating: GridItem(.fixed(50 * CGFloat(gomoku.row))), count: gomoku.row)) {
+                        ForEach(0..<gomoku.column, id: \.self) { column in
                             cellAt(row: row, column: column)
                         }
                     }
@@ -26,7 +26,7 @@ public struct GomokuGameView: View {
                 } else {
                     HStack {
                         VStack {
-                            ForEach(0..<game.board.column, id: \.self) { column in
+                            ForEach(0..<gomoku.column, id: \.self) { column in
                                 cellAt(row: row, column: column)
                             }
                         }
@@ -44,5 +44,12 @@ public struct GomokuGameView: View {
         } label: {
             Text("")
         }
+    }
+}
+
+struct GomokuGameView_Previews: PreviewProvider {
+    static var previews: some View {
+        GomokuGameView()
+            .environmentObject(Gomoku(row: 5, column: 5))
     }
 }

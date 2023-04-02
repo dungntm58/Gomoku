@@ -28,10 +28,23 @@ public struct GomokuView: View {
 }
 
 class Gomoku: ObservableObject {
-    var row: Int = 0
-    var column: Int = 0
     var players: [any Player] = []
     var winnerTester: WinnerTestable?
+
+    @Published
+    var isPlayingWithBot: Bool = false
+    @Published
+    var row: Int
+    @Published
+    var column: Int
+
+    init(players: [any Player] = [], winnerTester: WinnerTestable? = nil, isPlayingWithBot: Bool = false, row: Int = 5, column: Int = 5) {
+        self.players = players
+        self.winnerTester = winnerTester
+        self.isPlayingWithBot = isPlayingWithBot
+        self.row = row
+        self.column = column
+    }
 
     var currentGame: Game?
 
@@ -41,5 +54,12 @@ class Gomoku: ObservableObject {
         }
         currentGame = Game(board: .init(row: row, column: column, winnerTester: winnerTester), players: players)
         currentGame?.start()
+    }
+}
+
+@available(iOS 14.0, macOS 11.0, *)
+struct GomokuView_Previews: PreviewProvider {
+    static var previews: some View {
+        GomokuView()
     }
 }
