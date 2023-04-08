@@ -12,37 +12,19 @@ public struct GomokuGameView: View {
 
     @EnvironmentObject var gomoku: Gomoku
 
+    let cellSize: CGFloat = 50
+
     @ViewBuilder
     public var body: some View {
-        ScrollView {
-            ForEach(0..<gomoku.row, id: \.self) { row in
-                if #available(iOS 14.0, macOS 11.0, *) {
-                    LazyHGrid(rows: Array(repeating: GridItem(.fixed(50 * CGFloat(gomoku.row))), count: gomoku.row)) {
-                        ForEach(0..<gomoku.column, id: \.self) { column in
-                            cellAt(row: row, column: column)
-                        }
-                    }
-                    .frame(height: 50)
-                } else {
-                    HStack {
-                        VStack {
-                            ForEach(0..<gomoku.column, id: \.self) { column in
-                                cellAt(row: row, column: column)
-                            }
-                        }
-                    }
-                    .frame(height: 50)
-                }
-            }
-        }
+        BoardView(row: gomoku.row, column: gomoku.column, cellSize: 50, cellContent: cellAt)
     }
 
     @ViewBuilder
     func cellAt(row: Int, column: Int) -> some View {
         Button {
-            
+            gomoku.tryMarkMove(row: row, column: column)
         } label: {
-            Text("")
+            Text(gomoku.symbol(row: row, column: column))
         }
     }
 }
@@ -50,6 +32,6 @@ public struct GomokuGameView: View {
 struct GomokuGameView_Previews: PreviewProvider {
     static var previews: some View {
         GomokuGameView()
-            .environmentObject(Gomoku(row: 5, column: 5))
+            .environmentObject(Gomoku(row: 30, column: 30))
     }
 }

@@ -17,12 +17,14 @@ public struct GomokuView: View {
     public var body: some View {
         if #available(iOS 16.0, macOS 13.0, tvOS 16.0, *) {
             NavigationStack {
-                
+                GomokuGameView()
             }
+            .environmentObject(gomoku)
         } else {
             NavigationView {
-                
+                GomokuGameView()
             }
+            .environmentObject(gomoku)
         }
     }
 }
@@ -54,6 +56,14 @@ class Gomoku: ObservableObject {
         }
         currentGame = Game(board: .init(row: row, column: column, winnerTester: winnerTester), players: players)
         currentGame?.start()
+    }
+
+    func tryMarkMove(row: Int, column: Int) {
+        
+    }
+
+    func symbol(row: Int, column: Int) -> String {
+        "x"
     }
 }
 

@@ -14,33 +14,34 @@ public struct GomokuStartView: View {
 
     @ViewBuilder
     public var body: some View {
-        ZStack {
-            VStack {
-                HStack {
-                    Text("Row: ")
-                    Counter(value: $gomoku.row)
-                }
-
-                HStack {
-                    Text("Column: ")
-                    Counter(value: $gomoku.column)
-                }
-
-                Spacer().frame(height: 24)
-
-                Toggle("Play with AI", isOn: $gomoku.isPlayingWithBot)
-                    .toggleStyle(CheckToggleStyle())
-
-                Spacer().frame(height: 40)
-
-                Button {
-                    gomoku.startNewGame()
-                } label: {
-                    Text("Start")
-                }
-                .buttonStyle(GrowingButton())
+        VStack {
+            HStack {
+                Text("Row: ")
+                Spacer()
+                Counter(value: $gomoku.row)
             }
+
+            HStack {
+                Text("Column: ")
+                Spacer()
+                Counter(value: $gomoku.column)
+            }
+
+            Spacer().frame(height: 24)
+
+            Toggle("Play with AI", isOn: $gomoku.isPlayingWithBot)
+                .toggleStyle(CheckToggleStyle())
+
+            Spacer().frame(height: 40)
+
+            Button {
+                gomoku.startNewGame()
+            } label: {
+                Text("Start")
+            }
+            .buttonStyle(GrowingButton())
         }
+        .padding(.horizontal, 40)
     }
 }
 
@@ -89,7 +90,7 @@ struct GrowingButton: ButtonStyle {
         .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
     }
 }
- 
+
 struct GomokuStartView_Previews: PreviewProvider {
     static var previews: some View {
         GomokuStartView()

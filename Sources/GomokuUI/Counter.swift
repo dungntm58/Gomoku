@@ -104,13 +104,15 @@ struct CounterButtonStyle: ButtonStyle {
 }
 
 struct Counter_Previews: PreviewProvider {
-    static var value: Int = 0
-
     static var previews: some View {
-        Counter(value: Binding(get: {
-            value
-        }, set: {
-            value = $0
-        }))
+        Container().previewLayout(.sizeThatFits)
+    }
+
+    struct Container: View {
+        @State var value: Int = 5
+
+        var body: some View {
+            Counter(value: $value)
+        }
     }
 }
