@@ -38,6 +38,13 @@ public struct Board {
         moves.last
     }
 
+    public func canMark(_ move: Move) -> Bool {
+        if isRunningOutOfMove {
+            return false
+        }
+        return grid[move.row][move.column] == 0
+    }
+
     public mutating func mark(_ move: Move) throws {
         guard isRunningOutOfMove else {
             canMakeMove = false

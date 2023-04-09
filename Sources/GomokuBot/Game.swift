@@ -18,11 +18,7 @@ public class Game: ObservableObject {
     @Published
     public private(set) var board: Board
 
-    var currentPlayerIndex: Int = -1 {
-        didSet {
-            
-        }
-    }
+    var currentPlayerIndex: Int = -1
 
     public init(board: Board, players: [any Player]) {
         self.board = board
@@ -60,12 +56,12 @@ public class Game: ObservableObject {
 extension Game: PlayerDelegate {
     public func playerMakeMove(move: Move) async {
         do {
-            try self.board.mark(move)
+            try board.mark(move)
             if await state.isOver {
                 return
             }
-            self.passToNextPlayer()
-            try await self.currentPlayer.opponentMoved(move, board: self.board)
+            passToNextPlayer()
+            try await currentPlayer.opponentMoved(move, board: board)
         } catch let error as MoveError {
             await playerMakeFailedMove(id: move.playerID, error: error)
         } catch {}
