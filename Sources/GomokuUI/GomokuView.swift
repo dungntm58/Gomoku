@@ -10,6 +10,8 @@ import GomokuBot
 import Combine
 
 public struct GomokuView: View {
+    public init() {}
+
     @ViewBuilder
     public var body: some View {
         if #available(iOS 14.0, macOS 11.0, *) {
@@ -21,7 +23,7 @@ public struct GomokuView: View {
 }
 
 @available(iOS 14.0, macOS 11.0, *)
-struct NewGomokuView: View {
+private struct NewGomokuView: View {
     @StateObject var gomoku: Gomoku = .init()
 
     @ViewBuilder
@@ -32,7 +34,7 @@ struct NewGomokuView: View {
 
 @available(iOS, obsoleted: 14)
 @available(macOS, obsoleted: 11)
-struct LegacyGomokuView: View {
+private struct LegacyGomokuView: View {
     @LegacyStateObject var gomoku: Gomoku = .init()
 
     @ViewBuilder

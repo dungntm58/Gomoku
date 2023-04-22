@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E207326A29C62C2A004D9DBD /* GomokuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E207326929C62C2A004D9DBD /* GomokuApp.swift */; };
-		E207326C29C62C2A004D9DBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E207326B29C62C2A004D9DBD /* ContentView.swift */; };
 		E207326E29C62C2B004D9DBD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E207326D29C62C2B004D9DBD /* Assets.xcassets */; };
 		E207327229C62C2B004D9DBD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E207327129C62C2B004D9DBD /* Preview Assets.xcassets */; };
 		E207329A29C636B1004D9DBD /* GomokuUI in Frameworks */ = {isa = PBXBuildFile; productRef = E207329929C636B1004D9DBD /* GomokuUI */; };
@@ -18,7 +17,6 @@
 /* Begin PBXFileReference section */
 		E207326629C62C2A004D9DBD /* Gomoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gomoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E207326929C62C2A004D9DBD /* GomokuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GomokuApp.swift; sourceTree = "<group>"; };
-		E207326B29C62C2A004D9DBD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E207326D29C62C2B004D9DBD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E207326F29C62C2B004D9DBD /* Gomoku.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Gomoku.entitlements; sourceTree = "<group>"; };
 		E207327129C62C2B004D9DBD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -60,7 +58,6 @@
 			isa = PBXGroup;
 			children = (
 				E207326929C62C2A004D9DBD /* GomokuApp.swift */,
-				E207326B29C62C2A004D9DBD /* ContentView.swift */,
 				E207326D29C62C2B004D9DBD /* Assets.xcassets */,
 				E207326F29C62C2B004D9DBD /* Gomoku.entitlements */,
 				E207327029C62C2B004D9DBD /* Preview Content */,
@@ -165,7 +162,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E207326C29C62C2A004D9DBD /* ContentView.swift in Sources */,
 				E207326A29C62C2A004D9DBD /* GomokuApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

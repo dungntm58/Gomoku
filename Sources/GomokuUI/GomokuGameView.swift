@@ -14,9 +14,23 @@ public struct GomokuGameView: View {
 
     let cellSize: CGFloat = 50
 
+    public init() {}
+
     @ViewBuilder
     public var body: some View {
-        BoardView(row: gomoku.row, column: gomoku.column, cellSize: 50, cellContent: cellAt)
+        VStack {
+            GeometryReader { reader in
+                BoardView(
+                    row: gomoku.row,
+                    column: gomoku.column,
+                    cellSize: cellSize,
+                    cellContent: cellAt)
+                .frame(height: reader.size.height * 2/3)
+            }
+            if gomoku.isWaitingForOpponent {
+                Text("Waiting for opponent...")
+            }
+        }
     }
 
     @ViewBuilder
@@ -32,6 +46,6 @@ public struct GomokuGameView: View {
 struct GomokuGameView_Previews: PreviewProvider {
     static var previews: some View {
         GomokuGameView()
-            .environmentObject(Gomoku(row: 30, column: 30))
+            .environmentObject(Gomoku(row: 10, column: 10))
     }
 }

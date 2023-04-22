@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import GomokuUI
 
 @main
 struct GomokuApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            GomokuView()
         }
     }
 }

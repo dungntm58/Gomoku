@@ -12,6 +12,8 @@ public struct GomokuStartView: View {
 
     @EnvironmentObject var gomoku: Gomoku
 
+    public init() {}
+
     @ViewBuilder
     public var body: some View {
         VStack {
@@ -34,12 +36,14 @@ public struct GomokuStartView: View {
 
             Spacer().frame(height: 40)
 
-            Button {
-                gomoku.startNewGame()
-            } label: {
-                Text("Start")
-            }
-            .buttonStyle(GrowingButton())
+            NavigationLink(destination: GomokuGameView().edgesIgnoringSafeArea(.all), isActive: $gomoku.isStarted, label: {
+                Button {
+                    gomoku.startNewGame()
+                } label: {
+                    Text("Start")
+                }
+                .buttonStyle(GrowingButton())
+            })
         }
         .padding(.horizontal, 40)
     }

@@ -85,7 +85,7 @@ private extension Game {
     }
 
     func setupPlayers() {
-        for i in stride(from: 0, to: players.count, by: 1) {
+        for i in stride(from: 0, to: players.count, by: 1) where players[i].delegate !== self {
             players[i].delegate = self
         }
     }

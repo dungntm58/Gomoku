@@ -42,7 +42,7 @@ class BotPlayer: Bot {
 }
 
 class Gomoku: ObservableObject {
-    var winnerTester: WinnerTestable?
+    var winnerTester: WinnerTestable
 
     @Published
     var isPlayingWithBot: Bool = false
@@ -50,10 +50,14 @@ class Gomoku: ObservableObject {
     var row: Int
     @Published
     var column: Int
+    @Published
+    var isStarted = false
+    @Published
+    var isWaitingForOpponent = false
 
     var cancellables = Set<AnyCancellable>()
 
-    init(winnerTester: WinnerTestable? = nil, isPlayingWithBot: Bool = false, row: Int = 5, column: Int = 5) {
+    init(winnerTester: WinnerTestable = ClassicWinnerTester(), isPlayingWithBot: Bool = false, row: Int = 5, column: Int = 5) {
         self.winnerTester = winnerTester
         self.isPlayingWithBot = isPlayingWithBot
         self.row = row
@@ -63,9 +67,6 @@ class Gomoku: ObservableObject {
     var currentGame: Game?
 
     func startNewGame() {
-        guard let winnerTester else {
-            return
-        }
         let players: [any Player] = [
             HumanPlayer(),
             isPlayingWithBot ? BotPlayer() : HumanPlayer()
@@ -80,6 +81,7 @@ class Gomoku: ObservableObject {
             }
             .store(in: &cancellables)
         game.start()
+        isStarted = true
     }
 
     func tryMarkMove(row: Int, column: Int) {
