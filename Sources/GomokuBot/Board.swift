@@ -7,7 +7,8 @@
 
 import Foundation
 
-public typealias BoardGrid = ContiguousArray<ContiguousArray<Int>>
+public typealias BoardColumn = ContiguousArray<Int>
+public typealias BoardGrid = ContiguousArray<BoardColumn>
 
 public struct Board {
     public let row: Int
@@ -34,6 +35,10 @@ public struct Board {
         self.canMakeMove = true
     }
 
+    public subscript(_ row: Int) -> BoardColumn {
+        grid[row]
+    }
+
     public var lastMove: Move? {
         moves.last
     }
@@ -48,7 +53,7 @@ public struct Board {
     public mutating func mark(_ move: Move) throws {
         guard isRunningOutOfMove else {
             canMakeMove = false
-            throw MoveError.runOutOfMove
+            throw MoveError.runOutOfMoves
         }
         guard grid[move.row][move.column] == 0 else {
             throw MoveError.illegalMove(move)
@@ -117,7 +122,16 @@ public struct Board {
     }
 }
 
-public enum MoveError: Error {
+public enum MoveError: LocalizedError {
     case illegalMove(_ move: Move)
-    case runOutOfMove
+    case runOutOfMoves
+
+    public var errorDescription: String? {
+        switch self {
+        case .illegalMove(let move):
+            return "Illegal move at row \(move.row) and column \(move.column)"
+        case .runOutOfMoves:
+            return "Run out of moves"
+        }
+    }
 }

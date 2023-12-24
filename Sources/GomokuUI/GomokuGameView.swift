@@ -25,20 +25,27 @@ public struct GomokuGameView: View {
                     column: gomoku.column,
                     cellSize: cellSize,
                     cellContent: cellAt)
-                .frame(height: reader.size.height * 2/3)
+                .frame(idealHeight: CGFloat(gomoku.row) * cellSize, maxHeight: reader.size.height * 2/3)
+                .background(Color.white)
             }
             if gomoku.isWaitingForOpponent {
                 Text("Waiting for opponent...")
             }
         }
+        .background(Color.red)
     }
 
     @ViewBuilder
     func cellAt(row: Int, column: Int) -> some View {
-        Button {
-            gomoku.tryMarkMove(row: row, column: column)
-        } label: {
-            Text(gomoku.symbol(row: row, column: column))
+        let symbol = gomoku.symbol(row: row, column: column)
+        switch symbol {
+        case .x, .o, .empty:
+            Button(symbol.rawValue) {
+                gomoku.tryMarkMove(row: row, column: column)
+            }
+            .frame(width: .infinity, height: .infinity)
+        case .block:
+            Color.gray.frame(width: .infinity, height: .infinity)
         }
     }
 }
@@ -46,6 +53,6 @@ public struct GomokuGameView: View {
 struct GomokuGameView_Previews: PreviewProvider {
     static var previews: some View {
         GomokuGameView()
-            .environmentObject(Gomoku(row: 10, column: 10))
+            .environmentObject(Gomoku(row: 5, column: 5))
     }
 }

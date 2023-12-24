@@ -8,17 +8,13 @@
 import Foundation
 import Combine
 
-public class Game: ObservableObject {
-    public var players: [any Player] {
-        didSet {
-            setupPlayers()
-        }
-    }
-
+public final class Game: ObservableObject {
+    public private(set) var players: [any Player]
     @Published
-    public private(set) var board: Board
+    public var board: Board
 
-    var currentPlayerIndex: Int = -1
+    private var currentPlayerIndex: Int = -1
+    private var mainPlayerIndex: Int?
 
     public init(board: Board, players: [any Player]) {
         self.board = board
@@ -40,6 +36,23 @@ public class Game: ObservableObject {
             }
             return .playing
         }
+    }
+
+    public var mainPlayer: (any Player)? {
+        guard let mainPlayerIndex, mainPlayerIndex >= 0 && mainPlayerIndex < players.count else {
+            return nil
+        }
+        return players[mainPlayerIndex]
+    }
+
+    public func setPlayers(_ players: [any Player], mainPlayerIndex: Int?) {
+        self.players = players
+        self.mainPlayerIndex = mainPlayerIndex
+        setupPlayers()
+    }
+
+    public func addPlayer(_ player: any Player) {
+        players.append(player)
     }
 
     public func start(withPlayerIndex index: Int) {

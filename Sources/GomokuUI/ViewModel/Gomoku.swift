@@ -41,6 +41,13 @@ class BotPlayer: Bot {
     }
 }
 
+enum Symbol: String, CaseIterable {
+    case x
+    case o
+    case empty = ""
+    case block
+}
+
 class Gomoku: ObservableObject {
     var winnerTester: WinnerTestable
 
@@ -54,6 +61,8 @@ class Gomoku: ObservableObject {
     var isStarted = false
     @Published
     var isWaitingForOpponent = false
+    @Published
+    var errorMessage: String?
 
     var cancellables = Set<AnyCancellable>()
 
@@ -85,10 +94,27 @@ class Gomoku: ObservableObject {
     }
 
     func tryMarkMove(row: Int, column: Int) {
-        
+        guard let currentGame, let mainID = currentGame.mainPlayer?.id else {
+            return
+        }
+        do {
+            try currentGame.board.mark(.init(row: row, column: column, playerID: mainID))
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 
-    func symbol(row: Int, column: Int) -> String {
-        "x"
+    func symbol(row: Int, column: Int) -> Symbol {
+        guard let currentGame else {
+            return .block
+        }
+        let id = currentGame.board[row][column]
+        if id == 0 {
+            return .empty
+        }
+        guard let index = currentGame.players.firstIndex(where: { id == $0.id.id }) else {
+            return .block
+        }
+        return Symbol.allCases[index]
     }
 }
